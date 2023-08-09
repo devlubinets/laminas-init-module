@@ -18,7 +18,7 @@ do
     echo "\n"
 
     echo Example:
-    echo ./init-module.sh Orm-Super P-31 Description ticket git@dev.lubinets/orm-super.git project-name
+    echo ./init-module.sh Orm-Super P-31 "Description ticket" git@dev.lubinets/orm-super.git project-name
     ;;
   v) # show version
     getVersion

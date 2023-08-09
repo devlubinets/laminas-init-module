@@ -34,6 +34,9 @@ gitRepoBaseModule=$VCSP_REPO_BASE_MODULE
 primaryCommit="Init $moduleName's commit"
 moduleCommit="Init $moduleName's commit"
 
+# Template settings
+key="alpha"
+Key="Alpha"
 
 if [ "$devFlag" = 1 ]; then
   echo "projectName: $projectName"
@@ -77,8 +80,8 @@ fi
 # Step 2: update clone base module
 # Rename composer's files
 sed -i "s/project-name/$projectName/" ./composer.json
-sed -i "s/primary/$moduleName/" ./composer.json
-sed -i "s/Primary/$nameSpace/" ./composer.json
+sed -i "s/$key/$moduleName/" ./composer.json
+sed -i "s/$Key/$nameSpace/" ./composer.json
 # Rename README.md
 sed -i "s/MODULE_REPO/$moduleName/" ./README.md
 sed -i "s/MODULE_NAME/$nameSpace/" ./README.md
@@ -89,28 +92,28 @@ sed -i "s/MODULE_PACKAGE_NAME/$moduleName/" ./README.md
 
 # Change files' name and content in src
 # Content
-find "./config" -type f -exec sed -i "s/primary-module/$moduleName-module/g" {} + #change literal module name
-find "./config" -type f -exec sed -i "s/primary/$varName/g" {} +
-find "./config" -type f -exec sed -i "s/Primary/$nameSpace/g" {} +
-find "./config" -type f -exec sed -i "s/\\Primary/\\$nameSpace/g" {} +
+find "./config" -type f -exec sed -i "s/$key-module/$moduleName-module/g" {} + #change literal module name
+find "./config" -type f -exec sed -i "s/$key/$varName/g" {} +
+find "./config" -type f -exec sed -i "s/$Key/$nameSpace/g" {} +
+find "./config" -type f -exec sed -i "s/\\$Key/\\$nameSpace/g" {} +
 
-find "./src" -type f -exec sed -i "s/primary-module/$moduleName-module/g" {} + #change literal module name
-find "./src" -type f -exec sed -i "s/primary/$varName/g" {} +
-find "./src" -type f -exec sed -i "s/Primary/$nameSpace/g" {} +
-find "./src" -type f -exec sed -i "s/\\Primary/\\$nameSpace/g" {} +
+find "./src" -type f -exec sed -i "s/$key-module/$moduleName-module/g" {} + #change literal module name
+find "./src" -type f -exec sed -i "s/$key/$varName/g" {} +
+find "./src" -type f -exec sed -i "s/$Key/$nameSpace/g" {} +
+find "./src" -type f -exec sed -i "s/\\$Key/\\$nameSpace/g" {} +
 # Name
-find "./src" -type f -name "*.php" -execdir rename "s/Primary/$nameSpace/" "{}" \;
+find "./src" -type f -name "*.php" -execdir rename "s/$Key/$nameSpace/" "{}" \;
 
 # Change files' name and content in test
-find "./test" -type f -exec sed -i "s/primary-module/$moduleName-module/g" {} + #change literal module name
-find "./test" -type f -exec sed -i "s/primary/$varName/g" "{}" +
-find "./test" -type f -exec sed -i "s/Primary/$nameSpace/g" "{}" +
-find "./test" -type f -exec sed -i "s/\\Primary/\\$nameSpace/g" {} +
+find "./test" -type f -exec sed -i "s/$key-module/$moduleName-module/g" {} + #change literal module name
+find "./test" -type f -exec sed -i "s/$key/$varName/g" "{}" +
+find "./test" -type f -exec sed -i "s/$Key/$nameSpace/g" "{}" +
+find "./test" -type f -exec sed -i "s/\\$Key/\\$nameSpace/g" {} +
 # Name
-find "./test" -type f -name "*.php" -execdir rename "s/Primary/$nameSpaceTest/g" "{}" \;
+find "./test" -type f -name "*.php" -execdir rename "s/$Key/$nameSpaceTest/g" "{}" \;
 # Change view's folder name
-mv "./view/primary-module" "./view/${moduleName}-module"
-mv "./view/${moduleName}-module/primary" "./view/${moduleName}-module/$moduleName"
+mv "./view/$key-module" "./view/${moduleName}-module"
+mv "./view/${moduleName}-module/$key" "./view/${moduleName}-module/$moduleName"
 
 ### Add ticket to CHANGELOG.md
 sed -i "/^\#\#\ \[Unreleased\]/a \\\n- $ticket: $ticketDescription" CHANGELOG.md
