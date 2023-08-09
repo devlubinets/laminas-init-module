@@ -14,6 +14,7 @@ Description:
 * with - because it is laminas convention for module
 * name of repo git without module suffix
 * module name same to create repo for module
+* project name is package name (**symfony**/something)
 
 
 ### Glosary 
