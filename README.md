@@ -5,6 +5,13 @@ Init-module is script which init your laminas module fast and cleary without any
 
 ### Example:
 
+Ubuntu
+```shell
+bash ./init-module.sh Unleash-Pipe CRM-604 "Description ticket" git@bitbucket.org:dev.lubinets/orm-super.git "project-name"
+
+```
+
+Linux Mint
 ```shell
  ./init-module.sh Unleash-Pipe CRM-604 "Description ticket" git@bitbucket.org:dev.lubinets/orm-super.git "project-name"
 ```
