@@ -9,6 +9,18 @@ version=0.4.1
 . ./env.sh
 . ./option.sh
 
+### todo: move to another file style.sh
+Default='\033[0m'         # Text Reset
+Black='\033[0;30m'        # Black
+Red='\033[0;31m'          # Red
+Green='\033[0;32m'        # Green
+Yellow='\033[0;33m'       # Yellow
+Blue='\033[0;34m'         # Blue
+Purple='\033[0;35m'       # Purple
+Cyan='\033[0;36m'         # Cyan
+White='\033[0;37m'        # White
+
+
 ### Setup
 
 # development flags
@@ -40,7 +52,7 @@ Key="Alpha"
 #templateProjectName="project-name" # now doesn't used
 projectName="iss-module"
 
-echo "\e[33mInit new laminas module: $moduleName\e[0m"
+echo -e "${Yellow}Init new laminas module: $moduleName ${Default}"
 
 #@todo: move to dev-features.sh to make main script more readable
 if [ "$devFlag" = 1 ]; then
@@ -71,18 +83,18 @@ fi
 # Step 1: get base module
 if [ "$gitFlagPull" = 1 ]; then
   # Get base module
-  echo "\e[33mStep 1: get base module. Clone base module to local file system\e[0m";
+  echo -e "${Yellow}Step 1: get base module. Clone base module to local file system${Default}";
   git clone "$VCSP_REPO_BASE_MODULE" "$ROOT_MODULE_PATH/$moduleName"
-  echo "\e[33mMove to local module directory\e[0m";
+  echo -e "${Blue}Move to local module directory${Default}";
   cd "$ROOT_MODULE_PATH/$moduleName"
 
   # Create new branch to push like init branch to template's repo
-  echo "\e[33mCreate new branch to push like init branch to template's repo\e[0m"
+  echo -e "${Blue}Create new branch to push like init branch to template's repo${Default}"
   git commit -am "$primaryCommit"
   git checkout -b "$moduleName"
 
   # Step 2: update clone base module
-  echo "\e[33mStep 2: update clone base module\e[0m"
+  echo -e "${Yellow}Step 2: update clone base module${Default}"
   # Rename composer's files
   # sed -i "s/$templateProjectName/$projectName/" ./composer.json # change name for project (deprecated), maybe in future
   sed -i "s/$key/$moduleName/" ./composer.json # change name of package
@@ -127,7 +139,7 @@ if [ "$gitFlagPull" = 1 ]; then
 
   # Step 3: Run scripts
   ### Finish
-  echo "\e[33mRun composer's scripts\e[0m"
+  echo -e "${Yellow}Run composer's scripts${Default}"
   if [ "$optionalFlag" = 1 ]; then
     # Run composer's scripts
     composer install
@@ -138,7 +150,7 @@ if [ "$gitFlagPull" = 1 ]; then
     composer stan
     composer cover
   else
-    echo "\e[33mAvoid composer section\e[0m"
+    echo -e "${Red}Avoid composer section${Default}"
     sleep 1
   fi
 
@@ -146,18 +158,18 @@ if [ "$gitFlagPull" = 1 ]; then
   #git commit -am "$primaryCommit"
   #git checkout -b "$moduleName"
 else
-  echo "\e[33mYou avoid the step of getting code from the remote repo\e[0m"
+  echo -e "${Red}You avoid the step of getting code from the remote repo${Default}"
   cd "$ROOT_MODULE_PATH/$moduleName"
   sleep 1
 fi
 
-# Step 4.1: VCS section (send commit to remote parent module template remote origin)
+echo -e "${Yellow}Step 4.1: VCS section (send commit to remote parent module template remote origin)${Default}"
 if [ "$gitFlagPushToParentModuleTemplate" = 1 ]; then
     # Push initial renamed module back to parent module template parent module
     git commit -am "$primaryCommit" && git push --set-upstream origin $moduleName
 fi
 
-# Step 4.2: VCS section (remove it and push code to module repo)
+echo -e "${Yellow}Step 4.2: VCS section (remove it and push code to module repo)${Default}"
 if [ "$gitFlagPush" = 1 ]; then
   # Delete the original .git directory
   rm -rf "./.git"
@@ -172,22 +184,21 @@ if [ "$gitFlagPush" = 1 ]; then
 
   # Start feature
   featureName="$ticket/init-module"
-  echo "\e[33mStart a new feature\e[0m"
+  echo -e "${Blue}Start a new feature${Default}"
   git flow feature start "$featureName"
   # Git push
   git add .
   git commit -m "$moduleCommit"
   git push -u origin "feature/$featureName"
-  echo "\e[33mFinished! Module $nameSpace has been initialized.\e[0m"
+  echo -e "${Green}Finished! Module $nameSpace has been initialized${Default}"
 else
-  echo "\e[33mDo you have trouble with the repo\e[0m"
+  echo "${Red}Do you have trouble with the repo${Default}"
 fi
 
-echo "\e[33mFinished! Module $nameSpace has been initialized.\e[0m"
-
+ echo -e "${Cyan}Optionals work with module $nameSpace${Default}"
 if [ "$optionalFlag" = 1 ]; then
   # Create and open PHPStorm project
-  echo "\e[33mCreate and open PHPStorm project\e[0m"
+  echo "${Yellow}Create and open PHPStorm project${Default}"
   # Indexing and open the project like a daemon
   nohup phpstorm . >/dev/null 2>&1 &
 # Finish
