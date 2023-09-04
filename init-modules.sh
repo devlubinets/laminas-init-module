@@ -1,15 +1,17 @@
 #!/bin/bash
 
+. ./style.sh
+
 branches=(
-    lender-retail-duologi-form-module
-    lender-retail-duologi-module
-    lender-retail-duologi-rest-module
-    lender-retail-form-module
-    lender-retail-humm-form-module
-    lender-retail-humm-module
-    lender-retail-humm-rest-module
-    lenders-retail-module
-    lenders-retail-rest-module
+    placeholder-sample-joki-form-module
+    placeholder-sample-joki-module
+    placeholder-sample-joki-rest-module
+    placeholder-sample-form-module
+    placeholder-sample-boom-form-module
+    placeholder-sample-boom-module
+    placeholder-sample-boom-rest-module
+    placeholders-sample-module
+    placeholders-sample-rest-module
 );
 
 first_letter_to_uppercase() {
@@ -19,12 +21,14 @@ first_letter_to_uppercase() {
     echo "$first_char$rest_of_string"
 }
 
-# Iterate through the branch names and convert them
+echo "${Green}Start create new modules${Default}"
 for branch in "${branches[@]}"; do
     # Convert the branch name to uppercase first letter
     formatted_branch=$(first_letter_to_uppercase "$branch")
 
     # Use the formatted branch name in your script
-    echo "Formatted branch: $formatted_branch"
-    source init-module.sh "$formatted_branch" CRM-999 "Description ticket"
+    echo "${Yellow}Create new one module: $formatted_branch${Default}"
+    source init-module.sh "$formatted_branch" CRM-999 "Init ticket"
+    cd -
 done
+echo "${Green}Finished created new modules${Default}"
