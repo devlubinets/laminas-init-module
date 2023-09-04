@@ -7,5 +7,5 @@ Bash
 * log and send message to slack
 
 Bugs:
-* doesn't send all code after change to repo (maybe it near something change after composer commands)
+* doesn't send all code after change to repo (maybe it near something change after composer commands) that commands help` git add . && git commit -m "init commit" && git push`
 * doesn't change link for alpha module branch ( `sed -i "s/MODULE_REPO/$moduleName/" ./README.md` )
