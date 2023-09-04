@@ -132,6 +132,8 @@ if [ "$gitFlagPull" = 1 ]; then
   find "./config" -type f -exec sed -i "s/$Key/$nameSpace/g" {} +
   find "./config" -type f -exec sed -i "s/\\$Key/\\$nameSpace/g" {} +
 
+  # Fistful more specific selection
+  find "./src" -type f -exec sed -i "s/ALPHA_CONFIG_KEY/$moduleName/g" {} +
   find "./src" -type f -exec sed -i "s/$key-module/$moduleName-module/g" {} + #change literal module name
   find "./src" -type f -exec sed -i "s/$key/$varName/g" {} +
   find "./src" -type f -exec sed -i "s/$Key/$nameSpace/g" {} +
