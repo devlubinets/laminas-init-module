@@ -87,10 +87,10 @@ if [ "$gitFlagPull" = 1 ]; then
   git clone "$VCSP_REPO_BASE_MODULE" "$ROOT_MODULE_PATH/$moduleName"
   echo -e "${Blue}Move to local module directory${Default}";
   cd "$ROOT_MODULE_PATH/$moduleName"
+  git checkout alpha ##todo: setup default branch
 
   # Create new branch to push like init branch to template's repo
   echo -e "${Blue}Create new branch to push like init branch to template's repo${Default}"
-  git commit -am "$primaryCommit"
   git checkout -b "$moduleName"
 
   # Step 2: update clone base module
@@ -169,7 +169,7 @@ if [ "$gitFlagPushToParentModuleTemplate" = 1 ]; then
     git commit -am "$primaryCommit" && git push --set-upstream origin $moduleName
 fi
 
-echo -e "${Yellow}Step 4.2: VCS section (remove it and push code to module repo)${Default}"
+echo -e "${Yellow}Step 4.2: VCS section (remove current .git and reinit git repo and push code to module repo)${Default}"
 if [ "$gitFlagPush" = 1 ]; then
   # Delete the original .git directory
   rm -rf "./.git"
