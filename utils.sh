@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 toCamelCase() {
   # Convert string to lowercase and replace all non-primarynumeric characters with spaces

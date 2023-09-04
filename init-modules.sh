@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 branches=(
     lender-retail-duologi-form-module
@@ -25,5 +25,6 @@ for branch in "${branches[@]}"; do
     formatted_branch=$(first_letter_to_uppercase "$branch")
 
     # Use the formatted branch name in your script
+    echo "Formatted branch: $formatted_branch"
     source init-module.sh "$formatted_branch" CRM-999 "Description ticket"
 done

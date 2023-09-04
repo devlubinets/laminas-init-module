@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # todo: Add custom code to customize main work flow
 
