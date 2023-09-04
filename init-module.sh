@@ -10,16 +10,15 @@ version=0.4.1
 . ./option.sh
 
 ### todo: move to another file style.sh
-Default='\033[0m'         # Text Reset
-Black='\033[0;30m'        # Black
-Red='\033[0;31m'          # Red
-Green='\033[0;32m'        # Green
-Yellow='\033[0;33m'       # Yellow
-Blue='\033[0;34m'         # Blue
-Purple='\033[0;35m'       # Purple
-Cyan='\033[0;36m'         # Cyan
-White='\033[0;37m'        # White
-
+Default='\033[0m'   # Text Reset
+Black='\033[0;30m'  # Black
+Red='\033[0;31m'    # Red
+Green='\033[0;32m'  # Green
+Yellow='\033[0;33m' # Yellow
+Blue='\033[0;34m'   # Blue
+Purple='\033[0;35m' # Purple
+Cyan='\033[0;36m'   # Cyan
+White='\033[0;37m'  # White
 
 ### Setup
 
@@ -29,6 +28,7 @@ gitFlagPull=1
 gitFlagPush=0
 optionalFlag=0
 gitFlagPushToParentModuleTemplate=1
+composerFlag=1
 
 # Rename composer's files
 nameSpace="$(echo $1 | sed 's/-\([a-z]\)/\U\1/g' | sed 's/-//g')"
@@ -52,40 +52,56 @@ Key="Alpha"
 #templateProjectName="project-name" # now doesn't used
 projectName="iss-module"
 
-echo -e "${Yellow}Init new laminas module: $moduleName ${Default}"
+echo -e "${Green}Init new laminas module: ${Purple}$moduleName${Default}"
 
 #@todo: move to dev-features.sh to make main script more readable
+#@todo: check all variable on empty
+# Check if repoNameSsh is empty
+#if [ -z "$repoNameSsh" ]; then
+#  repoNameSsh="${Red}Empty${Default}"
+#fi
+
 if [ "$devFlag" = 1 ]; then
-  echo "projectName: $projectName"
+  echo -e "${Yellow}DEV FLAGS${Default}"
+  echo "devFlag $devFlag"
+  echo "gitFlagPull $gitFlagPull"
+  echo "gitFlagPush $gitFlagPush"
+  echo "optionalFlag $optionalFlag"
+  echo "gitFlagPushToParentModuleTemplate $gitFlagPushToParentModuleTemplate"
+  echo "composerFlag $composerFlag"
+
+  echo -e "${Blue}Code settings${Default}"
   echo "nameSpace $nameSpace"
   echo "nameSpaceTest $nameSpaceTest"
   echo "moduleName $moduleName"
   echo "varName $varName"
+
+  echo -e "${Blue}Git settings${Default}"
   echo "ticket $ticket"
   echo "ticketDescription $ticketDescription"
+
+  echo -e "${Blue}README.md and composer.json settings${Default}"
+  echo "projectName: $projectName"
   echo "moduleDescription $moduleDescription"
   echo "repoNameSsh $repoNameSsh"
   echo "gitRepoBaseModule $gitRepoBaseModule"
-  echo "gitFlagPull $gitFlagPull"
-  echo "gitFlagPush $gitFlagPush"
-  echo "optionalFlag $optionalFlag"
 
-  echo "ENVIROMENT VARIABLE \n"
+  echo -e "${Yellow}ENVIROMENT VARIABLE${Default}"
   echo "VCSP_REPO_BASE_MODULE $VCSP_REPO_BASE_MODULE"
   echo "VCSP_DEV_WORKSPACE $VCSP_DEV_WORKSPACE"
   echo "VCSP_PROVIDER $VCSP_PROVIDER"
   echo "ROOT_MODULE_PATH $ROOT_MODULE_PATH"
 
-  echo "\n"
+  echo -e "\n"
   sleep 5
 fi
 
 # Step 1: get base module
 if [ "$gitFlagPull" = 1 ]; then
   # Get base module
-  echo -e "${Yellow}Step 1: get base module. Clone base module to local file system${Default}";
+  echo -e "${Yellow}Step 1: get base module. Clone base module to local file system${Default}"
   git clone "$VCSP_REPO_BASE_MODULE" "$ROOT_MODULE_PATH/$moduleName"
-  echo -e "${Blue}Move to local module directory${Default}";
+  echo -e "${Blue}Move to local module directory${Default}"
   cd "$ROOT_MODULE_PATH/$moduleName"
   git checkout alpha ##todo: setup default branch
 
@@ -98,17 +114,17 @@ if [ "$gitFlagPull" = 1 ]; then
   # Rename composer's files
   # sed -i "s/$templateProjectName/$projectName/" ./composer.json # change name for project (deprecated), maybe in future
   sed -i "s/$key/$moduleName/" ./composer.json # change name of package
-  sed -i "s/$Key/$nameSpace/" ./composer.json # change any OOP class name
+  sed -i "s/$Key/$nameSpace/" ./composer.json  # change any OOP class name
   # Rename README.md
-  sed -i "s/{MODULE_NAME}/$nameSpace/" ./README.md
-  sed -i "s/{PURPOSE_DESCRIPTION}/$nameSpace/" ./README.md
-  sed -i "s/{MODULE_REPO}/$moduleName/" ./README.md
+  sed -i "s/MODULE_NAME/$nameSpace/" ./README.md
+  sed -i "s/PURPOSE_DESCRIPTION/$nameSpace/" ./README.md
+  sed -i "s/MODULE_REPO/$moduleName/" ./README.md
 
   sed -i "s/REPO_NAME_SSH/$repoNameSsh/" ./README.md # git link to modules remote repo
-  sed -i "s/PROJECT_NAME/$projectName/" ./README.md # name for current module package
+  sed -i "s/PROJECT_NAME/$projectName/" ./README.md  # name for current module package
   sed -i "s/MODULE_PACKAGE_NAME/$moduleName/" ./README.md
-  sed -i "s/$key/$moduleName/" ./README.md
-  sed -i "s/$Key/$nameSpace/" ./README.md
+#  sed -i "s/$key/$moduleName/" ./README.md # because README has alpha mention
+#  sed -i "s/$Key/$nameSpace/" ./README.md # because README has alpha mention
 
   # Change files' name and content in src
   # Content
@@ -140,11 +156,12 @@ if [ "$gitFlagPull" = 1 ]; then
   # Step 3: Run scripts
   ### Finish
   echo -e "${Yellow}Run composer's scripts${Default}"
-  if [ "$optionalFlag" = 1 ]; then
+  if [ "$composerFlag" = 1 ]; then
     # Run composer's scripts
     composer install
     composer dump-autoload
     composer test
+    sleep 10
     composer csfix
     composer cs
     composer stan
@@ -153,20 +170,15 @@ if [ "$gitFlagPull" = 1 ]; then
     echo -e "${Red}Avoid composer section${Default}"
     sleep 1
   fi
-
-  # Create new branch to push like init branch to primary's repo
-  #git commit -am "$primaryCommit"
-  #git checkout -b "$moduleName"
 else
   echo -e "${Red}You avoid the step of getting code from the remote repo${Default}"
-  cd "$ROOT_MODULE_PATH/$moduleName"
   sleep 1
 fi
 
 echo -e "${Yellow}Step 4.1: VCS section (send commit to remote parent module template remote origin)${Default}"
 if [ "$gitFlagPushToParentModuleTemplate" = 1 ]; then
-    # Push initial renamed module back to parent module template parent module
-    git commit -am "$primaryCommit" && git push --set-upstream origin $moduleName
+  # Push initial renamed module back to parent module template parent module
+  git commit -am "$primaryCommit" && git push --set-upstream origin $moduleName
 fi
 
 echo -e "${Yellow}Step 4.2: VCS section (remove current .git and reinit git repo and push code to module repo)${Default}"
@@ -192,13 +204,13 @@ if [ "$gitFlagPush" = 1 ]; then
   git push -u origin "feature/$featureName"
   echo -e "${Green}Finished! Module $nameSpace has been initialized${Default}"
 else
-  echo "${Red}Do you have trouble with the repo${Default}"
+  echo -e "${Red}Do you have trouble with the repo${Default}"
 fi
 
- echo -e "${Cyan}Optionals work with module $nameSpace${Default}"
+echo -e "${Cyan}Optionals work with module $nameSpace${Default}"
 if [ "$optionalFlag" = 1 ]; then
   # Create and open PHPStorm project
-  echo "${Yellow}Create and open PHPStorm project${Default}"
+  echo -e "${Yellow}Create and open PHPStorm project${Default}"
   # Indexing and open the project like a daemon
   nohup phpstorm . >/dev/null 2>&1 &
 # Finish
