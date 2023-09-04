@@ -93,7 +93,7 @@ if [ "$devFlag" = 1 ]; then
   echo "ROOT_MODULE_PATH $ROOT_MODULE_PATH"
 
   echo -e "\n"
-  sleep 5
+  sleep 1
 fi
 
 # Step 1: get base module
@@ -161,7 +161,7 @@ if [ "$gitFlagPull" = 1 ]; then
     composer install
     composer dump-autoload
     composer test
-    sleep 10
+    sleep 1
     composer csfix
     composer cs
     composer stan
