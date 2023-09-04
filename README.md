@@ -6,29 +6,44 @@ Init-module is script which init your laminas module fast and cleary without any
 ### Example:
 
 Ubuntu
+
+To init one module
 ```shell
 bash ./init-module.sh Unleash-Pipe CRM-604 "Description ticket" git@bitbucket.org:dev.lubinets/orm-super.git "project-name"
+```
 
+to init two and more modules
+```shell
+bash ./init-modules.sh
 ```
 
 Linux Mint
+
+To init one module
 ```shell
  ./init-module.sh Unleash-Pipe CRM-604 "Description ticket" git@bitbucket.org:dev.lubinets/orm-super.git "project-name"
 ```
+to init two and more modules
+```shell
+./init-modules.sh
+```
 
-Description:
+Description for cli params:
 
-* with - because it is laminas convention for module
-* name of repo git without module suffix
-* module name same to create repo for module
-* project name is package name (**symfony**/something)
+* module name
+* ticket
+* ticket's description
+* git destination repository (repo for inited module to push new one module to module's remote repo)
+* project name for package  (**project-name**/do-something-laravel-module)
 
+Tips:
+* avoid word "module" in your module name (example-do-things-**module**-module)
 
-### Glosary 
+### Glossary 
 
 * VCSP - version control system provider (git, bitbucet and ect)
 
-## Prerequsites
+## Prerequisites
 
 Make that sctipt executable to execute that script:)
 
@@ -56,9 +71,9 @@ ln -s "$(locate phpstorm.sh)" /usr/local/bin/phpstorm
 
 * module directory: ~/PhpstormProjects 
 
-### Enviroment 
+### Environment 
 
-Add next enviroment to your shell configuration variable to provide your special configuration
+Add next environment to your shell configuration variable to provide your special configuration
 
 * Bash: ~/.bashrc or ~/.bash_profile
 * Zsh: ~/.zshrc
@@ -92,5 +107,5 @@ Solutions:
 ## Features:
 * Add check to symbolic link
 * Add check to installed PHPStorm
-* Get path to module dir from Enviroment
+* Get path to module dir from Environment
 
