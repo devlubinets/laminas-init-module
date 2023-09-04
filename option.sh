@@ -20,12 +20,12 @@ if [ -z "$3" ]; then
   exit 1
 fi
 
-if [ -z "$4" ]; then
-  echo "Git repository should be added "
-  exit 1
-fi
+#if [ -z "$4" ]; then
+#  echo "Git repository should be added "
+#  exit 1
+#fi
 
-if [ -z "$5" ]; then
-  echo "Project name should be added "
-  exit 1
-fi
+#if [ -z "$5" ]; then
+#  echo "Project name should be added "
+#  exit 1
+#fi
