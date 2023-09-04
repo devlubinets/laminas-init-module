@@ -85,8 +85,8 @@ Descriptions:
 This error message usually occurs when a script was created on a Windows system and then transferred to a Unix-based system without properly converting the line endings.The "^M" character is a carriage return character that is used in Windows line endings. Unix-based systems use only the line feed character.To fix this error, you need to convert the line endings in the script from Windows-style (CRLF) to Unix-style (LF) using a text editor or a command-line utility such as dos2unix.
 
 Solutions:
-1. sudo apt install dos2unix &&  dos2unix init-module.sh 
-2. sed -i -e 's/\r$//' init-module.sh
+1. sudo apt install dos2unix &&  dos2unix *.sh 
+2. sed -i -e 's/\r$//' *.sh
 
 
 ## Features:
